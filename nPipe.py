@@ -1,9 +1,39 @@
 import maya.cmds as mc
-
+import urllib2
+import json
 
 class NPipe(object):
     def __init__(self):
-        hoge = ''
+        self.json = ''
+        self.assets = []
+        self.asset = ''
+        self.LoDs = []
+        self.versions = []
+        self.note = ''
+
+    def getAsset(self, *args):
+        f = open('C:/hoge.json', 'r')
+        self.json = json.load(f)
+        self.assets = self.json['asset'].keys()
+
+    def getLoD(self, asset, *args):
+        self.LoDs = []
+        self.asset = asset
+        self.LoDs = self.json['asset'][asset].keys()
+        mc.textScrollList('m_l2', ra=True, append=self.LoDs, edit=True, enable=True)
+
+    def getVersion(self, LoD, *args):
+        self.versions = []
+        self.versions = self.json['asset'][self.asset][LoD].keys()
+        mc.textScrollList('m_l3', ra=True, append=self.versions, edit=True, enable=True)
+
+    def selectNode(self, scrollList, *args):
+        selectedNode = mc.textScrollList(scrollList, query=True, selectItem=True)
+        if scrollList == 'm_l1':
+            self.getLoD(selectedNode[0])
+        else:
+            self.getVersion(selectedNode[0])
+
 
     def ui(self, *args):
         win = mc.window('win', t='nPipe')
@@ -20,11 +50,11 @@ class NPipe(object):
         # -----------------------------------------------------------
         tab1 = mc.formLayout()
         m_t1 = mc.text(l=' Asset Name:', al='left', w=200, h=20)
-        m_l1 = mc.textScrollList(w=120, h=200)
+        m_l1 = mc.textScrollList('m_l1', w=120, h=200, append=self.assets, selectCommand=lambda: self.selectNode('m_l1'))
         m_t2 = mc.text(l=' LoD:', al='left', w=200, h=20)
-        m_l2 = mc.textScrollList(w=120, h=200)
+        m_l2 = mc.textScrollList('m_l2', w=120, h=200, append=self.LoDs, selectCommand=lambda: self.selectNode('m_l2'))
         m_t3 = mc.text(l=' Version:', al='left', w=200, h=20)
-        m_l3 = mc.textScrollList(w=120, h=200)
+        m_l3 = mc.textScrollList('m_l3', w=120, h=200)
         m_t4 = mc.text(l=' Note:', al='left', w=200, h=20)
         m_s1 = mc.scrollField(text='hoge', w=380, h=200)
         m_b1 = mc.button(l='import', w=80, h=25)
@@ -194,5 +224,7 @@ class NPipe(object):
 
         mc.showWindow(win)
 
+
 a = NPipe()
+a.getAsset()
 a.ui()

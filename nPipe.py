@@ -36,7 +36,7 @@ class NPipe(object):
 
 
     def ui(self, *args):
-        win = mc.window('win', t='nPipe')
+        main = mc.window('main', t='nPipe')
 
         menuBarLayout = mc.menuBarLayout()
         mc.menu(label='File')
@@ -735,7 +735,7 @@ class NPipe(object):
             (re_b4, 'top', 425), (re_b4, 'left', 400),
         ])
 
-        mc.showWindow(win)
+        mc.showWindow(main)
 
 
 a = NPipe()

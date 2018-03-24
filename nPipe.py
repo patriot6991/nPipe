@@ -132,7 +132,7 @@ class NPipe(object):
         pr_t9 = mc.text(l=' Cut:', al='left', w=200, h=20)
         pr_o4 = mc.optionMenu(w=120, h=25)
         pr_t10 = mc.text(l=' Status:', al='left', w=200, h=20)
-        pr_o5 = mc.optionMenu(w=120, h=25)M
+        pr_o5 = mc.optionMenu(w=120, h=25)
         pr_t11 = mc.text(l=' Note:', al='left', w=200, h=20)
         pr_s2 = mc.scrollField(text='hoge', w=335, h=45)
         pr_b3 = mc.button(l='Publish Camera!!', w=380, h=50)

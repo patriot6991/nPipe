@@ -5,26 +5,26 @@ import json
 class NPipe(object):
     def __init__(self):
         self.json = ''
-        self.assets = []
-        self.asset = ''
+        self.models = []
+        self.model = ''
         self.LoDs = []
         self.versions = []
         self.note = ''
 
-    def getAsset(self, *args):
-        f = open('C:/hoge.json', 'r')
+    def getModel(self, *args):
+        f = open('C:/nPipe/model.json', 'r')
         self.json = json.load(f)
-        self.assets = self.json['asset'].keys()
+        self.models = self.json['model'].keys()
 
-    def getLoD(self, asset, *args):
+    def getLoD(self, model, *args):
         self.LoDs = []
-        self.asset = asset
-        self.LoDs = self.json['asset'][asset].keys()
+        self.model = model
+        self.LoDs = self.json['model'][model].keys()
         mc.textScrollList('m_l2', ra=True, append=self.LoDs, edit=True, enable=True)
 
     def getVersion(self, LoD, *args):
         self.versions = []
-        self.versions = self.json['asset'][self.asset][LoD].keys()
+        self.versions = self.json['model'][self.model][LoD].keys()
         mc.textScrollList('m_l3', ra=True, append=self.versions, edit=True, enable=True)
 
     def selectNode(self, scrollList, *args):
@@ -36,6 +36,9 @@ class NPipe(object):
 
 
     def ui(self, *args):
+        if mc.window('main', ex=True) == True:
+            mc.deleteUI('main', window=True)
+
         main = mc.window('main', t='nPipe')
 
         menuBarLayout = mc.menuBarLayout()
@@ -51,7 +54,7 @@ class NPipe(object):
         # -----------------------------------------------------------
         tab1 = mc.formLayout()
         m_t1 = mc.text(l=' Asset Name:', al='left', w=200, h=20)
-        m_l1 = mc.textScrollList('m_l1', w=120, h=200, append=self.assets, selectCommand=lambda: self.selectNode('m_l1'))
+        m_l1 = mc.textScrollList('m_l1', w=120, h=200, append=self.models, selectCommand=lambda: self.selectNode('m_l1'))
         m_t2 = mc.text(l=' LoD:', al='left', w=200, h=20)
         m_l2 = mc.textScrollList('m_l2', w=120, h=200, append=self.LoDs, selectCommand=lambda: self.selectNode('m_l2'))
         m_t3 = mc.text(l=' Version:', al='left', w=200, h=20)
@@ -80,11 +83,11 @@ class NPipe(object):
         # -----------------------------------------------------------
         tab2 = mc.formLayout()
         r_t1 = mc.text(l=' Asset Name:', al='left', w=200, h=20)
-        r_l1 = mc.textScrollList('m_l1', w=120, h=200)
+        r_l1 = mc.textScrollList('r_l1', w=120, h=200)
         r_t2 = mc.text(l=' Section:', al='left', w=200, h=20)
-        r_l2 = mc.textScrollList('m_l2', w=120, h=200)
+        r_l2 = mc.textScrollList('r_l2', w=120, h=200)
         r_t3 = mc.text(l=' Version:', al='left', w=200, h=20)
-        r_l3 = mc.textScrollList('m_l3', w=120, h=200)
+        r_l3 = mc.textScrollList('r_l3', w=120, h=200)
         r_t4 = mc.text(l=' Note:', al='left', w=200, h=20)
         r_s1 = mc.scrollField(text='hoge', w=380, h=200)
         r_b1 = mc.button(l='import', w=80, h=25)
@@ -739,5 +742,5 @@ class NPipe(object):
 
 
 a = NPipe()
-a.getAsset()
+a.getModel()
 a.ui()

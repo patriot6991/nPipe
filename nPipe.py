@@ -145,7 +145,7 @@ class NPipe(object):
         pr_o8 = mc.optionMenu(w=120, h=25)
         pr_t15 = mc.text(l=' Note:', al='left', w=200, h=20)
         pr_s3 = mc.scrollField(text='hoge', w=335, h=45)
-        pr_b4 = mc.button(l='Publish ovie!!', w=380, h=50)
+        pr_b4 = mc.button(l='Publish Movie!!', w=380, h=50)
 
         mc.setParent('..')
 
